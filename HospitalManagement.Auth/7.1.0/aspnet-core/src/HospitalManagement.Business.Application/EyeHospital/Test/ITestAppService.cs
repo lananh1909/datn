@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace HospitalManagement.Business.EyeHospital
 {
-    public interface ITestAppService : IAsyncCrudAppService<TestDto, Guid>
+    public interface ITestAppService : IAsyncCrudAppService<TestDto, Guid, TestPagedAndSortDto>
     {
+        Task<bool> UpdateTestService(UpdateTestDto input);
     }
 }

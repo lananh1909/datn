@@ -25,5 +25,7 @@ namespace HospitalManagement.Business.EyeHospital
         public string PhoneNumber { get; set; }
         public EmployeeJobTitle JobTitle { get; set; }
         public string Specialized { get; set; }
+        public string Degree { get; set; }
+        public int UserId { get; set; }
     }
 }

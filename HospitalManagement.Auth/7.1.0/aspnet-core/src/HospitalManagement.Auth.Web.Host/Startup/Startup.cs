@@ -20,10 +20,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using System.IO;
+using HospitalManagement.Auth.Authentication.JwtBearer;
+using Abp.IdentityServer4;
+using HospitalManagement.Auth.Authorization.Users;
 
 namespace HospitalManagement.Auth.Web.Host.Startup
 {
-    public class Startup
+public class Startup
     {
         private const string _defaultCorsPolicyName = "localhost";
 
@@ -52,6 +55,14 @@ namespace HospitalManagement.Auth.Web.Host.Startup
             });
 
             IdentityRegistrar.Register(services);
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
+                .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
+                .AddInMemoryClients(IdentityServerConfig.GetClients())
+                //.AddAbpPersistedGrants<IAbpPersistedGrantDbContext>()
+                .AddInMemoryApiScopes(IdentityServerConfig.GetApiScopes())
+                .AddAbpIdentityServer<User>();
             AuthConfigurer.Configure(services, _appConfiguration);
 
             services.AddSignalR();
@@ -100,6 +111,11 @@ namespace HospitalManagement.Auth.Web.Host.Startup
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseJwtTokenMiddleware("JwtBearer");
+            app.UseJwtTokenMiddleware("IdentityBearer");
+            app.UseIdentityServer();
+            app.UseAuthorization();
+
 
             app.UseAbpRequestLocalization();
 

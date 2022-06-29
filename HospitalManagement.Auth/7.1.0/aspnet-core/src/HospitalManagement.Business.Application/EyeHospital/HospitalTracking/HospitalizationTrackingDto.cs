@@ -20,5 +20,6 @@ namespace HospitalManagement.Business.EyeHospital
         public string Command { get; set; }
         public Guid MedicalRecordId { get; set; }
         public Guid DoctorId { get; set; }
+        public Employee Doctor { get; set; }
     }
 }

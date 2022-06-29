@@ -75,7 +75,45 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("appointment", (string)null);
+                    b.ToTable("appointment");
+                });
+
+            modelBuilder.Entity("HospitalManagement.Business.Entities.AppPermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("permission");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.Employee", b =>
@@ -95,6 +133,9 @@ namespace HospitalManagement.Business.Migrations
 
                     b.Property<long?>("CreatorUserId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("Degree")
+                        .HasColumnType("longtext");
 
                     b.Property<long?>("DeleterUserId")
                         .HasColumnType("bigint");
@@ -129,9 +170,12 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<string>("Specialized")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("employee", (string)null);
+                    b.ToTable("employee");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.HospitalizationTracking", b =>
@@ -182,13 +226,16 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("hospitalization_tracking", (string)null);
+                    b.ToTable("hospitalization_tracking");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.MedicalRecord", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("AppointmentId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("CreatedBy")
@@ -212,7 +259,13 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateTime?>("FromDateHospitalize")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsHospitalize")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -227,7 +280,7 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<string>("Reason")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("StartDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("StreatmentMethod")
@@ -236,13 +289,18 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<string>("Symptom")
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime?>("ToDateHospitalize")
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("medical_record", (string)null);
+                    b.ToTable("medical_record");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.Medicine", b =>
@@ -290,7 +348,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("medicine", (string)null);
+                    b.ToTable("medicine");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.Patient", b =>
@@ -379,7 +437,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("patient", (string)null);
+                    b.ToTable("patient");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.Prescription", b =>
@@ -421,7 +479,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("prescription", (string)null);
+                    b.ToTable("prescription");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.PrescriptionMedicine", b =>
@@ -469,7 +527,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasIndex("PrescriptionId");
 
-                    b.ToTable("prescription_medicine", (string)null);
+                    b.ToTable("prescription_medicine");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.Service", b =>
@@ -490,8 +548,14 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LandingPage")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime(6)");
@@ -504,7 +568,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("service", (string)null);
+                    b.ToTable("service");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.Surgery", b =>
@@ -512,6 +576,9 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("AttackUrl")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime(6)");
@@ -546,6 +613,9 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("SurgeryTypeId")
                         .HasColumnType("char(36)");
 
@@ -555,13 +625,15 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasIndex("SurgeryTypeId");
 
-                    b.ToTable("surgery", (string)null);
+                    b.ToTable("surgery");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.SurgeryDoctor", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("SurgeryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("DoctorId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationTime")
@@ -576,7 +648,7 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("DoctorId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
                     b.Property<bool>("IsDeleted")
@@ -591,16 +663,11 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<string>("Role")
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("SurgeryId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
+                    b.HasKey("SurgeryId", "DoctorId");
 
                     b.HasIndex("DoctorId");
 
-                    b.HasIndex("SurgeryId");
-
-                    b.ToTable("surgery_doctor", (string)null);
+                    b.ToTable("surgery_doctor");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.SurgeryType", b =>
@@ -642,7 +709,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("surgery_type", (string)null);
+                    b.ToTable("surgery_type");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.Test", b =>
@@ -678,11 +745,17 @@ namespace HospitalManagement.Business.Migrations
                     b.Property<Guid>("MedicalRecordId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("PerformedBy")
+                    b.Property<string>("Note")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid?>("PerformedBy")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Result")
                         .HasColumnType("longtext");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("TestTypeId")
                         .HasColumnType("char(36)");
@@ -695,7 +768,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasIndex("TestTypeId");
 
-                    b.ToTable("test", (string)null);
+                    b.ToTable("test");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.TestType", b =>
@@ -734,7 +807,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("test_type", (string)null);
+                    b.ToTable("test_type");
                 });
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.Appointment", b =>
@@ -785,6 +858,10 @@ namespace HospitalManagement.Business.Migrations
 
             modelBuilder.Entity("HospitalManagement.Business.Entities.MedicalRecord", b =>
                 {
+                    b.HasOne("HospitalManagement.Business.Entities.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId");
+
                     b.HasOne("HospitalManagement.Business.Entities.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -796,6 +873,8 @@ namespace HospitalManagement.Business.Migrations
                         .HasForeignKey("PatientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Appointment");
 
                     b.Navigation("Employee");
 
@@ -862,13 +941,13 @@ namespace HospitalManagement.Business.Migrations
             modelBuilder.Entity("HospitalManagement.Business.Entities.SurgeryDoctor", b =>
                 {
                     b.HasOne("HospitalManagement.Business.Entities.Employee", "Doctor")
-                        .WithMany()
+                        .WithMany("SurgeryDoctors")
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("HospitalManagement.Business.Entities.Surgery", "Surgery")
-                        .WithMany()
+                        .WithMany("SurgeryDoctors")
                         .HasForeignKey("SurgeryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -888,9 +967,7 @@ namespace HospitalManagement.Business.Migrations
 
                     b.HasOne("HospitalManagement.Business.Entities.Employee", "Employee")
                         .WithMany()
-                        .HasForeignKey("PerformedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PerformedBy");
 
                     b.HasOne("HospitalManagement.Business.Entities.TestType", "TestType")
                         .WithMany()
@@ -903,6 +980,16 @@ namespace HospitalManagement.Business.Migrations
                     b.Navigation("MedicalRecord");
 
                     b.Navigation("TestType");
+                });
+
+            modelBuilder.Entity("HospitalManagement.Business.Entities.Employee", b =>
+                {
+                    b.Navigation("SurgeryDoctors");
+                });
+
+            modelBuilder.Entity("HospitalManagement.Business.Entities.Surgery", b =>
+                {
+                    b.Navigation("SurgeryDoctors");
                 });
 #pragma warning restore 612, 618
         }

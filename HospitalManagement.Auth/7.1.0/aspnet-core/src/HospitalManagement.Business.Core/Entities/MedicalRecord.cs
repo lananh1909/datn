@@ -47,5 +47,21 @@ namespace HospitalManagement.Business.Entities
         public Guid PatientId { get; set; }
         [ForeignKey("PatientId")]
         public Patient Patient { get; set; }
+        public Appointment Appointment { get; set; }
+        [ForeignKey("AppointmentId")]
+        public Guid? AppointmentId { get; set; }
+        /// <summary>
+        /// Có phải điều trị nội trú hay không
+        /// </summary>
+        public bool IsHospitalize { get; set; } = false;
+        /// <summary>
+        /// ĐIều trị nội trú từ ngày
+        /// </summary>
+        public DateTime? FromDateHospitalize { get; set; }
+        /// <summary>
+        /// Đến ngày
+        /// </summary>
+        public DateTime? ToDateHospitalize { get; set; }
+
     }
 }

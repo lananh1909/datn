@@ -13,5 +13,7 @@ namespace HospitalManagement.Business.EyeHospital
     public class ServiceDto : FullAuditedEntityDto<Guid>
     {
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string LandingPage { get; set; }
     }
 }

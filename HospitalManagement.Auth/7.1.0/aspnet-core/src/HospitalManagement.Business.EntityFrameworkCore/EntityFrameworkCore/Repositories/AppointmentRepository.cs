@@ -14,5 +14,17 @@ namespace HospitalManagement.Business.EntityFrameworkCore.Repositories
         public AppointmentRepository(IDbContextProvider<BusinessDbContext> dbContextProvider) : base(dbContextProvider)
         {
         }
+
+        public async Task<bool> UpdateAppointmentStatus(Guid id, int status)
+        {
+            var appointment = await base.GetAsync(id);
+            if(appointment != null)
+            {
+                appointment.Status = status;
+                base.Update(appointment);
+                return true;
+            }
+            return false;
+        }
     }
 }

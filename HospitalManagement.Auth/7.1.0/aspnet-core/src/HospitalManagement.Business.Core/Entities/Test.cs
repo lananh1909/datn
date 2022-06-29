@@ -13,7 +13,7 @@ namespace HospitalManagement.Business.Entities
     {
         public string Result { get; set; }
         public string FileUrl { get; set; }
-        public Guid PerformedBy { get; set; }
+        public Guid? PerformedBy { get; set; }
         [ForeignKey("PerformedBy")]
         public Employee Employee { get; set; }
         public Guid TestTypeId { get; set; }
@@ -22,5 +22,7 @@ namespace HospitalManagement.Business.Entities
         public Guid MedicalRecordId { get; set; }
         [ForeignKey("MedicalRecordId")]
         public MedicalRecord MedicalRecord { get; set; }
+        public int Status { get; set; }
+        public string Note { get; set; }
     }
 }

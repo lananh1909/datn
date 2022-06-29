@@ -13,6 +13,6 @@ namespace HospitalManagement.Business.User
         public string Name { get; }
         public string Email { get; }
         public string PhoneNumber { get; }
-        public string Role { get; }
+        public List<string> Role { get; }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Abp.Runtime.Security;
+using Microsoft.AspNetCore.Builder;
 
 namespace HospitalManagement.Auth.Web.Host.Startup
 {
@@ -16,10 +17,8 @@ namespace HospitalManagement.Auth.Web.Host.Startup
         {
             if (bool.Parse(configuration["Authentication:JwtBearer:IsEnabled"]))
             {
-                services.AddAuthentication(options => {
-                    options.DefaultAuthenticateScheme = "JwtBearer";
-                    options.DefaultChallengeScheme = "JwtBearer";
-                }).AddJwtBearer("JwtBearer", options =>
+                services.AddAuthentication()
+                .AddJwtBearer("JwtBearer", options =>
                 {
                     options.Audience = configuration["Authentication:JwtBearer:Audience"];
 
@@ -48,6 +47,11 @@ namespace HospitalManagement.Auth.Web.Host.Startup
                     {
                         OnMessageReceived = QueryStringTokenResolver
                     };
+                })
+                .AddIdentityServerAuthentication("IdentityBearer", options =>
+                {
+                    options.Authority = configuration["App:ServerRootAddress"];
+                    options.RequireHttpsMetadata = false;
                 });
             }
         }

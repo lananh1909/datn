@@ -22,5 +22,9 @@ namespace HospitalManagement.Business.EyeHospital
         public Patient Patient { get; set; }
         public Guid ServiceId { get; set; }
         public Service Service { get; set; }
+        /// <summary>
+        /// Mô tả triệu chứng
+        /// </summary>
+        public string DescribeSymptom { get; set; }
     }
 }

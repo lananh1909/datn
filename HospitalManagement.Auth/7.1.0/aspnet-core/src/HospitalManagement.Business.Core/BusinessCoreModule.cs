@@ -1,4 +1,6 @@
-﻿using Abp.Localization;
+﻿using Abp.Authorization;
+using Abp.Configuration.Startup;
+using Abp.Localization;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Runtime.Security;
@@ -15,6 +17,7 @@ namespace HospitalManagement.Business
     {
         public override void PreInitialize()
         {
+            Configuration.ReplaceService<IAuthorizationHelper, OverridingAuthorizationHelper>();
             Configuration.Auditing.IsEnabledForAnonymousUsers = true;
             
             BusinessLocalizationConfigurer.Configure(Configuration.Localization);

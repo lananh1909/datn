@@ -16,6 +16,11 @@ namespace HospitalManagement.Business.EyeHospital
         public DateTime EndTime { get; set; }
         public string Description { get; set; }
         public Guid SurgeryTypeId { get; set; }
+        public SurgeryType SurgeryType { get; set; }
         public Guid MedicalRecordId { get; set; }
+        public MedicalRecord MedicalRecord { get; set; }
+        public int Status { get; set; }
+        public string AttackUrl { get; set; }
+        public IList<SurgeryDoctor> SurgeryDoctors { get; set; }
     }
 }

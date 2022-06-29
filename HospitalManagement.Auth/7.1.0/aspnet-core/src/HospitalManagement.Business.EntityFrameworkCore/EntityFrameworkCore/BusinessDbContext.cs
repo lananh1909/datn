@@ -21,11 +21,24 @@ namespace HospitalManagement.Business.EntityFrameworkCore
         public virtual DbSet<TestType> TestTypes { get; set; }
         public virtual DbSet<Test> Tests { get; set; }
         public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<AppPermission> Permissions { get; set; }
 
-        
+
         public BusinessDbContext(DbContextOptions<BusinessDbContext> options)
             : base(options)
         {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SurgeryDoctor>().HasKey(c => new { c.SurgeryId, c.DoctorId });
+            //modelBuilder.Entity<SurgeryDoctor>().HasOne<Surgery>(c => c.Surgery)
+            //    .WithMany(s => s.SurgeryDoctors)
+            //    .HasForeignKey(c => c.SurgeryId);
+            //modelBuilder.Entity<SurgeryDoctor>().HasOne<Employee>(c => c.Doctor)
+            //    .WithMany(s => s.SurgeryDoctors)
+            //    .HasForeignKey(c => c.DoctorId);
         }
     }
 }

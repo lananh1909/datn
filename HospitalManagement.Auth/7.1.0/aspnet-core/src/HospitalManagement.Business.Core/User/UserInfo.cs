@@ -22,9 +22,9 @@ namespace HospitalManagement.Business.User
             Token = token.StartsWith("Bearer ") || token.StartsWith("bearer ") ? token.Substring(7) : token;
             var jwtToken = new JwtSecurityToken(Token);
             UserId = int.Parse(jwtToken.Claims.SingleOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub).Value);
-            Name = jwtToken.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Name).Value;
+            Name = jwtToken.Claims.SingleOrDefault(x => x.Type == JwtRegisteredClaimNames.Name).Value;
             Email = jwtToken.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Email).Value;
-            Role = jwtToken.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Role).Value;
+            Role = jwtToken.Claims.Where(x => x.Type == "role").Select(x => x.Value).ToList();
         }
 
         public string Token { get; private set; }
@@ -37,6 +37,6 @@ namespace HospitalManagement.Business.User
 
         public string PhoneNumber { get; private set; }
 
-        public string Role { get; private set; }
+        public List<string> Role { get; private set; }
     }
 }

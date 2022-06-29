@@ -1,4 +1,5 @@
 ﻿using Abp.EntityFrameworkCore.Configuration;
+using Abp.IdentityServer4;
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using Abp.Zero.EntityFrameworkCore;
@@ -7,8 +8,9 @@ using HospitalManagement.Auth.EntityFrameworkCore.Seed;
 namespace HospitalManagement.Auth.EntityFrameworkCore
 {
     [DependsOn(
-        typeof(AuthCoreModule), 
-        typeof(AbpZeroCoreEntityFrameworkCoreModule))]
+        typeof(AuthCoreModule),
+        typeof(AbpZeroCoreEntityFrameworkCoreModule),
+        typeof(AbpZeroCoreIdentityServerEntityFrameworkCoreModule))]
     public class AuthEntityFrameworkModule : AbpModule
     {
         /* Used it tests to skip dbcontext registration, in order to use in-memory database of EF Core */

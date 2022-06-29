@@ -12,5 +12,7 @@ namespace HospitalManagement.Business
         public const int BOOK_FOR_OTHER = 2;
 
         public const string PATIENT_CODE_PREFIX = "BN_";
+
+        public const string EMPLOYEE_CODE_PREFIX = "NV_";
     }
 }

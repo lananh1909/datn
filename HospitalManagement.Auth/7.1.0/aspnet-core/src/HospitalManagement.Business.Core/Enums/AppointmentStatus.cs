@@ -10,6 +10,7 @@ namespace HospitalManagement.Business.Enums
     {
         NEW = 1,
         APPROVED = 2,
-        CANCELED = 3
+        DONE = 3,
+        CANCEL = 4,
     }
 }

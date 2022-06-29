@@ -12,5 +12,7 @@ namespace HospitalManagement.Business.Entities
     public class Service : FullAuditedEntity<Guid>
     {
         public string Name { get; set; }
+        public string Description { get; set; }
+        public string LandingPage { get; set; }
     }
 }

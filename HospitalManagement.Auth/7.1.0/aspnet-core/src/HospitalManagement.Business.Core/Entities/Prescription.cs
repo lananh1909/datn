@@ -20,5 +20,6 @@ namespace HospitalManagement.Business.Entities
         public Guid MedicalRecordId { get; set; }
         [ForeignKey("MedicalRecordId")]
         public MedicalRecord MedicalRecord { get; set; }
+        public IList<PrescriptionMedicine> PrescriptionMedicines { get; set; }
     }
 }

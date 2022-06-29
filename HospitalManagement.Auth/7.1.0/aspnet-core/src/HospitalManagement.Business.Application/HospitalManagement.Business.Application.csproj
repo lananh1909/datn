@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Abp" Version="7.2.1" />
+    <PackageReference Include="Volo.Abp.Core" Version="5.2.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HospitalManagement.Business.Core\HospitalManagement.Business.Core.csproj" />

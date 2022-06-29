@@ -20,12 +20,13 @@ using HospitalManagement.Auth.Authorization.Roles;
 using HospitalManagement.Auth.Authorization.Users;
 using HospitalManagement.Auth.Roles.Dto;
 using HospitalManagement.Auth.Users.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HospitalManagement.Auth.Users
 {
-    [AbpAuthorize(PermissionNames.Pages_Users)]
+    [Authorize]
     public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedUserResultRequestDto, CreateUserDto, UserDto>, IUserAppService
     {
         private readonly UserManager _userManager;
@@ -52,7 +53,7 @@ namespace HospitalManagement.Auth.Users
             _abpSession = abpSession;
             _logInManager = logInManager;
         }
-
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
         {
             CheckCreatePermission();
@@ -75,7 +76,7 @@ namespace HospitalManagement.Auth.Users
 
             return MapToEntityDto(user);
         }
-
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         public override async Task<UserDto> UpdateAsync(UserDto input)
         {
             CheckUpdatePermission();
@@ -93,13 +94,13 @@ namespace HospitalManagement.Auth.Users
 
             return await GetAsync(input);
         }
-
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         public override async Task DeleteAsync(EntityDto<long> input)
         {
             var user = await _userManager.GetUserByIdAsync(input.Id);
             await _userManager.DeleteAsync(user);
         }
-
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         public async Task DeleteManyAsync(List<long> ids)
         {
             foreach (var id in ids)
@@ -126,13 +127,13 @@ namespace HospitalManagement.Auth.Users
                 entity.IsActive = false;
             });
         }
-
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         public async Task<ListResultDto<RoleDto>> GetRoles()
         {
             var roles = await _roleRepository.GetAllListAsync();
             return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
         }
-
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         public async Task ChangeLanguage(ChangeUserLanguageDto input)
         {
             await SettingManager.ChangeSettingForUserAsync(
@@ -141,7 +142,7 @@ namespace HospitalManagement.Auth.Users
                 input.LanguageName
             );
         }
-
+        
         protected override User MapToEntity(CreateUserDto createInput)
         {
             var user = ObjectMapper.Map<User>(createInput);
@@ -170,7 +171,7 @@ namespace HospitalManagement.Auth.Users
         protected override IQueryable<User> CreateFilteredQuery(PagedUserResultRequestDto input)
         {
             return Repository.GetAllIncluding(x => x.Roles)
-                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.PhoneNumber.Contains(input.Keyword) || x.Name.Contains(input.Keyword) || x.EmailAddress.Contains(input.Keyword)).WhereIf(input.Role != 0, x => x.Roles.Where(r => r.RoleId == input.Role).Any());
+                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.PhoneNumber .Contains(input.Keyword) || x.Name.Contains(input.Keyword) || x.EmailAddress.Contains(input.Keyword)).WhereIf(input.Role != 0, x => x.Roles.Where(r => r.RoleId == input.Role).Any());
         }
 
         protected override async Task<User> GetEntityByIdAsync(long id)
@@ -200,7 +201,7 @@ namespace HospitalManagement.Auth.Users
         {
             identityResult.CheckErrors(LocalizationManager);
         }
-
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         public async Task<bool> ChangePassword(ChangePasswordDto input)
         {
             await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
@@ -225,7 +226,7 @@ namespace HospitalManagement.Auth.Users
 
             return true;
         }
-
+        [AbpAuthorize(PermissionNames.Pages_Users)]
         public async Task<bool> ResetPassword(ResetPasswordDto input)
         {
             if (_abpSession.UserId == null)

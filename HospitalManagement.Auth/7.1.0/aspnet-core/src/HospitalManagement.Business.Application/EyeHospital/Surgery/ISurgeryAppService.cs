@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace HospitalManagement.Business.EyeHospital
 {
-    public interface ISurgeryAppService : IAsyncCrudAppService<SurgeryDto, Guid>
+    public interface ISurgeryAppService : IAsyncCrudAppService<SurgeryDto, Guid, SurgeryPagedAndSortDto>
     {
+        Task<bool> UpdateSurgery(SurgeryUpdateDto input);
     }
 }

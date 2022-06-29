@@ -10,5 +10,6 @@ namespace HospitalManagement.Business.Repositories
 {
     public interface IEmployeeRepository : IRepository<Employee, Guid>
     {
+        Task<string> GetNewEmployeeCode();
     }
 }

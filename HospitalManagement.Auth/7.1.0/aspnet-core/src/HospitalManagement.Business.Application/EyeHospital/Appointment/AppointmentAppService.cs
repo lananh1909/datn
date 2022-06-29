@@ -1,4 +1,6 @@
 ﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
+using Abp.Linq.Extensions;
 using HospitalManagement.Business.Entities;
 using HospitalManagement.Business.Enums;
 using HospitalManagement.Business.Repositories;
@@ -29,10 +31,10 @@ namespace HospitalManagement.Business.EyeHospital
 
         public async Task<AppointmentDto> PatientBookAppointment(PatientAppointmentDto input)
         {
-            if(input.BookFor == Constants.BOOK_FOR_ME)
+            if (input.BookFor == Constants.BOOK_FOR_ME)
             {
                 var existPatient = await _patientAppService.GetExistPatient();
-                if(existPatient == null)
+                if (existPatient == null)
                 {
                     var patientCode = CommonHelper.GennerateCode(Constants.PATIENT_CODE_PREFIX);
                     existPatient = await _patientAppService.CreateAsync(new PatientAddAndUpdateDto()
@@ -46,7 +48,8 @@ namespace HospitalManagement.Business.EyeHospital
                         UserId = _userInfo.UserId,
                         IsSelf = true
                     });
-                } else
+                }
+                else
                 {
                     existPatient.Sex = input.Gender;
                     existPatient.PhoneNumber = input.PhoneNumber;
@@ -65,7 +68,8 @@ namespace HospitalManagement.Business.EyeHospital
                     Time = input.Time,
                     Date = input.Date
                 });
-            } else
+            }
+            else
             {
                 var patientCode = CommonHelper.GennerateCode(Constants.PATIENT_CODE_PREFIX);
                 var newPatient = await _patientAppService.CreateAsync(new PatientAddAndUpdateDto()
@@ -94,8 +98,33 @@ namespace HospitalManagement.Business.EyeHospital
 
         public async Task<List<AppointmentDto>> GetUserAppointment()
         {
-            var appointments = await _appointmentRepository.GetAllIncluding(p => p.Patient, p => p.Doctor, p => p.Service).Where(p => p.Patient.UserId == _userInfo.UserId).ToListAsync();
+            var appointments = await _appointmentRepository.GetAllIncluding(p => p.Patient, p => p.Doctor, p => p.Service).Where(p => p.Patient.UserId == _userInfo.UserId).Where(p => p.IsDeleted == false).ToListAsync();
             return ObjectMapper.Map<List<AppointmentDto>>(appointments);
+        }
+
+        public async Task<List<AppointmentDto>> GetAppointmentByPatientId(Guid patientId)
+        {
+            var appointments = await _appointmentRepository.GetAllIncluding(p => p.Patient, p => p.Doctor, p => p.Service).Where(p => p.IsDeleted == false).Where(p => p.Patient.Id == patientId && p.Status < 3).OrderByDescending(p => p.Date).OrderByDescending(p => p.Time).ToListAsync();
+            return ObjectMapper.Map<List<AppointmentDto>>(appointments);
+        }
+
+        public async Task<PagedResultDto<AppointmentDto>> GetPatientFilter(AppointmentPagedAndSortDto input)
+        {
+            var allAppointment = _appointmentRepository.GetAllIncluding(p => p.Patient, p => p.Doctor, p => p.Service).Where(p => p.IsDeleted == false).Where(p => p.Status != (int)AppointmentStatus.CANCEL);
+            if(input.Status > 0)
+            {
+                allAppointment = allAppointment.Where(p => p.Status == input.Status);
+            }
+            if(!input.IsAll)
+            {
+                allAppointment = allAppointment.Where(p => p.Doctor.UserId == _userInfo.UserId);
+            }
+            var total = allAppointment.Count();
+            return new PagedResultDto<AppointmentDto>()
+            {
+                Items = ObjectMapper.Map<List<AppointmentDto>>(allAppointment.OrderBy(p => p.Date).ThenBy(p => p.Time).PageBy(input).ToList()),
+                TotalCount = total
+            };
         }
     }
 }

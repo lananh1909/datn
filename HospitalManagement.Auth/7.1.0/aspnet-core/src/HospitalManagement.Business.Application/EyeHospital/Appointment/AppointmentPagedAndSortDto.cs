@@ -9,5 +9,7 @@ namespace HospitalManagement.Business.EyeHospital
 {
     public class AppointmentPagedAndSortDto : PagedAndSortedResultRequestDto
     {
+        public bool IsAll { get; set; }
+        public int Status { get; set; }
     }
 }

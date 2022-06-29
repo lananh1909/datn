@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace HospitalManagement.Business.Entities
@@ -24,6 +26,11 @@ namespace HospitalManagement.Business.Entities
         public string PhoneNumber { get; set; }
         public EmployeeJobTitle JobTitle { get; set; }
         public string Specialized { get; set; }
+        public string Degree { get; set; }
+        public int UserId { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public IList<SurgeryDoctor> SurgeryDoctors { get; set; }
 
     }
 }

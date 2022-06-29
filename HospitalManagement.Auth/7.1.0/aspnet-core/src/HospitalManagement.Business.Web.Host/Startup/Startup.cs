@@ -10,7 +10,6 @@ using Castle.Facilities.Logging;
 using Abp.AspNetCore;
 using Abp.AspNetCore.Mvc.Antiforgery;
 using Abp.Castle.Logging.Log4Net;
-using Abp.Extensions;
 using HospitalManagement.Business.Configuration;
 using Abp.AspNetCore.SignalR.Hubs;
 using Abp.Dependency;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using System.IO;
+using HospitalManagement.Business.MinIO;
 
 namespace HospitalManagement.Business.Web.Host.Startup
 {
@@ -71,6 +71,21 @@ namespace HospitalManagement.Business.Web.Host.Startup
                         .AllowCredentials()
                 )
             );
+
+            services.Configure<AuthenticationServerConfig>(option =>
+            {
+                option.BaseUrl = _appConfiguration["Authentication:Server:BaseUrl"];
+                option.GetUserById = _appConfiguration["Authentication:Server:GetUserById"];
+            });
+
+            services.Configure<MinIOOption>(option =>
+            {
+                option.accessKey = _appConfiguration["Minio:accessKey"];
+                option.endpoint = _appConfiguration["Minio:endpoint"];
+                option.bucketName = _appConfiguration["Minio:bucketName"];
+                option.secretKey = _appConfiguration["Minio:secretKey"];
+                option.BasePathUrl = _appConfiguration["Minio:basePathUrl"];
+            });
 
             // Swagger - Enable this line and the related lines in Configure method to enable swagger UI
             ConfigureSwagger(services);

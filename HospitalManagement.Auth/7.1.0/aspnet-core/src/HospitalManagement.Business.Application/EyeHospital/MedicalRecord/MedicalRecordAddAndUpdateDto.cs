@@ -21,5 +21,6 @@ namespace HospitalManagement.Business.EyeHospital
         public DateTime? EndDate { get; set; }
         public Guid CreatedBy { get; set; }
         public Guid PatientId { get; set; }
+        public Guid AppointmentId { get; set; }
     }
 }

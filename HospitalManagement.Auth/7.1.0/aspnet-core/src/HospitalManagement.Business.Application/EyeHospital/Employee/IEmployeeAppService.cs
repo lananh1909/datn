@@ -10,5 +10,7 @@ namespace HospitalManagement.Business.EyeHospital
     public interface IEmployeeAppService : IAsyncCrudAppService<EmployeeDto, Guid, EmployeePagedAndSortDto, EmployeeAddAndUpdateDto>
     {
         Task DeleteManyAsync(List<Guid> ids);
+        Task<string> GetNewEmployeeCode();
+        Task<EmployeeDto> GetByUserId(int userId);
     }
 }

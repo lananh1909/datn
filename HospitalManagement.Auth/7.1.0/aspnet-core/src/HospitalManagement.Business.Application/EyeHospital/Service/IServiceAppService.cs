@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HospitalManagement.Business.EyeHospital
 {
-    public interface IServiceAppService : IAsyncCrudAppService<ServiceDto, Guid>
+    public interface IServiceAppService : IAsyncCrudAppService<ServiceDto, Guid, ServicePagedAndSortDto>
     {
     }
 }

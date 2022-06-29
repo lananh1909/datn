@@ -10,5 +10,7 @@ namespace HospitalManagement.Business.Repositories
 {
     public interface IAppointmentRepository : IRepository<Appointment, Guid>
     {
+        Task<bool> UpdateAppointmentStatus(Guid id, int status);
+        
     }
 }

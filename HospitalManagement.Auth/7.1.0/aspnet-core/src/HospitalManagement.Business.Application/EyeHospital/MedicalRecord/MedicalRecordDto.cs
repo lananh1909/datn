@@ -23,5 +23,19 @@ namespace HospitalManagement.Business.EyeHospital
         public Employee Employee { get; set; }
         public Guid PatientId { get; set; }
         public Patient Patient { get; set; }
+        public Guid AppointmentId { get; set; }
+        public Appointment Appointment { get; set; }
+        /// <summary>
+        /// Có phải điều trị nội trú hay không
+        /// </summary>
+        public bool IsHospitalize { get; set; } = false;
+        /// <summary>
+        /// ĐIều trị nội trú từ ngày
+        /// </summary>
+        public DateTime? FromDateHospitalize { get; set; }
+        /// <summary>
+        /// Đến ngày
+        /// </summary>
+        public DateTime? ToDateHospitalize { get; set; }
     }
 }

@@ -11,5 +11,6 @@ namespace HospitalManagement.Business.EyeHospital
     {
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
+        public Guid? PatientId { get; set; }
     }
 }

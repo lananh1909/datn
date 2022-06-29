@@ -17,7 +17,11 @@
   <ItemGroup>
     <PackageReference Include="Abp.AutoMapper" Version="7.1.0" />
     <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="7.1.0" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.9.18" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.4.0" />
+    <PackageReference Include="IdentityModel" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Minio" Version="4.0.4" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0" />
   </ItemGroup>
 </Project>
